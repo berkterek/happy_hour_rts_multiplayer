@@ -27,12 +27,22 @@ namespace HappyHourRts.Controllers
 
         void Update()
         {
-            SelectUnSelectSoldier();
+            bool isTouchDown = IInputReader.IsTouchDown;
+            if (!SelectUnSelectSoldier(isTouchDown)) return;
+
+            if (isTouchDown)
+            {
+                if (_selectedClickableController != null)
+                {
+                    var worldPosition = _camera.ScreenToWorldPoint(IInputReader.TouchPosition);
+                    _selectedClickableController.SetTarget(worldPosition);
+                }
+            }
         }
 
-        private void SelectUnSelectSoldier()
+        private bool SelectUnSelectSoldier(bool isTouchDown)
         {
-            if (IInputReader.IsTouchDown)
+            if (isTouchDown)
             {
                 var worldPosition = _camera.ScreenToWorldPoint(IInputReader.TouchPosition);
                 var raycastResult = Physics2D.Raycast(worldPosition, worldPosition, 100f, _layerMask);
@@ -47,7 +57,7 @@ namespace HappyHourRts.Controllers
                             {
                                 _selectedClickableController.Unselect();
                                 _selectedClickableController = null;
-                                return;
+                                return false;
                             }
                             
                             _selectedClickableController.Unselect();
@@ -62,6 +72,8 @@ namespace HappyHourRts.Controllers
                     }
                 }
             }
+
+            return _selectedClickableController != null;
         }
     }    
 }
