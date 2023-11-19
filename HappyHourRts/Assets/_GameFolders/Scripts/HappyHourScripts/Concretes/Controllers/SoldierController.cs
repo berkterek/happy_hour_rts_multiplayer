@@ -1,3 +1,4 @@
+using HappyHourRts.Abstracts.Animations;
 using HappyHourRts.Abstracts.Controllers;
 using UnityEngine;
 
@@ -8,6 +9,24 @@ namespace HappyHourRts.Controllers
         [SerializeField] SpriteRenderer _bodyRenderer;
         [SerializeField] SpriteRenderer _selectRenderer;
         [SerializeField] Transform _target;
+
+        ISoldierAnimationService _soldierAnimationService;
+
+        [Zenject.Inject]
+        public void Constructor(ISoldierAnimationService soldierAnimationService)
+        {
+            _soldierAnimationService = soldierAnimationService;
+        }
+
+        void Update()
+        {
+            _soldierAnimationService.Tick();
+        }
+
+        void LateUpdate()
+        {
+            _soldierAnimationService.LateTick();
+        }
 
         public void Select()
         {

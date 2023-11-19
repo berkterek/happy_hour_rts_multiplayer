@@ -4,6 +4,7 @@ namespace HappyHourRts.Abstracts.Controllers
 {
     public interface IClickableController
     {
+        Transform transform { get; }
         void Select();
         void Unselect();
         void SetTarget(Vector3 position);

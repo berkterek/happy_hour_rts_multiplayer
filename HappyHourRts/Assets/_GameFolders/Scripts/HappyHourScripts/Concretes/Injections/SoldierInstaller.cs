@@ -1,4 +1,7 @@
+using HappyHourRts.Abstracts.Animations;
+using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Injections;
+using HappyHourRts.Animations;
 
 namespace HappyHourRts.Injections
 {
@@ -6,7 +9,8 @@ namespace HappyHourRts.Injections
     {
         protected override void BindInstance()
         {
-            
+            Container.Bind<ISoldierAnimationService>().To<SoldierAnimationAiPathManager>().AsTransient().Lazy();
+            Container.Bind<ISoldierAnimationDal>().To<SoldierAnimationDal>().AsTransient().Lazy();
         }
     }
 }

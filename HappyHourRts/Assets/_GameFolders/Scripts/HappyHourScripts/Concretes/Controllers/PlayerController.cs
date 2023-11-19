@@ -1,5 +1,6 @@
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Inputs;
+using HappyHourRts.Helpers;
 using UnityEngine;
 
 namespace HappyHourRts.Controllers
@@ -7,8 +8,7 @@ namespace HappyHourRts.Controllers
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] LayerMask _layerMask;
-        
-        Camera _camera;
+        [SerializeField] Camera _camera;
 
         IClickableController _selectedClickableController;
         
@@ -20,9 +20,9 @@ namespace HappyHourRts.Controllers
             IInputReader = inputReader;
         }
 
-        void Awake()
+        void OnValidate()
         {
-            _camera = Camera.main;
+            this.GetReference(ref _camera);
         }
 
         void Update()
