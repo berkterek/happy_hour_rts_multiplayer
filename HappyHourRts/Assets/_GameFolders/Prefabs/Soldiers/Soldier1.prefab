@@ -126,5 +126,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Entity1
       objectReference: {fileID: 0}
+    - target: {fileID: 1822051401871326791, guid: 0b78ba8ec644c674fbed8dbf9c29a41b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527316450675397210, guid: 0b78ba8ec644c674fbed8dbf9c29a41b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650336219442786391, guid: 0b78ba8ec644c674fbed8dbf9c29a41b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b78ba8ec644c674fbed8dbf9c29a41b, type: 3}
