@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace HappyHourRts.Controllers
 {
-    public class PlayerController : NetworkBehaviour, IPlayerLeft
+    public class PlayerController : NetworkBehaviour, IPlayerLeft, IPlayerJoined
     {
         [SerializeField] LayerMask _layerMask;
         [SerializeField] Camera _camera;
         [SerializeField] float _speed = 1f;
         [SerializeField] SpriteRenderer[] _spriteRenderers;
+        [SerializeField] SoldierController[] _soldiers;
 
         IClickableController _selectedClickableController;
         Transform _cameraTransform;
@@ -43,6 +44,7 @@ namespace HappyHourRts.Controllers
             {
                 Local = this;
                 _isOwner = true;
+                
                 Debug.Log("Local player spawned!");
             }
             else
@@ -62,7 +64,7 @@ namespace HappyHourRts.Controllers
         public override void FixedUpdateNetwork()
         {
             if (!_isOwner) return;
-
+            
             if (!GetInput(out NetworkInputData networkInputData)) return;
 
             bool isTouchDown = networkInputData.IsTouchDown;
@@ -87,6 +89,8 @@ namespace HappyHourRts.Controllers
                         _selectedClickableController.SetTarget(worldPosition);
                     }
                 }
+
+                isTouchDown = false;
             }
         }
 
@@ -101,6 +105,8 @@ namespace HappyHourRts.Controllers
                 {
                     if (raycastResult.collider.TryGetComponent(out IClickableController clickableController))
                     {
+                        if (clickableController.HasAuthority != Object.HasInputAuthority) return false;
+                        
                         if (_selectedClickableController != null)
                         {
                             if (_selectedClickableController.Equals(clickableController))
@@ -152,16 +158,32 @@ namespace HappyHourRts.Controllers
 
         public void SetColor(Color color)
         {
-            if (!_isOwner) return;
-            SetColorServerRpc(color);
+            RPC_SetColorClientToServer(color);   
         }
 
-        [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-        private void SetColorServerRpc(Color color)
+        [Rpc(RpcSources.InputAuthority,RpcTargets.All)]
+        void RPC_SetColorClientToServer(Color color)
+        {
+            RPC_SetColorServerToClient(color);
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
+        void RPC_SetColorServerToClient(Color color)
         {
             foreach (var spriteRenderer in _spriteRenderers)
             {
                 spriteRenderer.color = color;
+            }
+        }
+
+        public void PlayerJoined(PlayerRef player)
+        {
+            if (player == Object.HasInputAuthority)
+            {
+                foreach (var soldierController in _soldiers)
+                {
+                    soldierController.SetPlayerAuthority(player);
+                }    
             }
         }
     }

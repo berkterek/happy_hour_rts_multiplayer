@@ -18,6 +18,9 @@ namespace HappyHourRts.Controllers
         ISoldierAnimationService _soldierAnimationService;
         IResourceController _resourceController;
         float _currentCollectedTime = 0f;
+        Vector3 _position;
+
+        public bool HasAuthority => Object.HasInputAuthority;
 
         [Zenject.Inject]
         public void Constructor(ISoldierAnimationService soldierAnimationService)
@@ -54,6 +57,15 @@ namespace HappyHourRts.Controllers
             }
         }
 
+        public override void FixedUpdateNetwork()
+        {
+            if (_position.Equals(DirectionCacheHelper.Vector3Zero)) return;
+            
+            if (Vector3.Distance(_target.position ,_position) < 0.5f) return;
+            
+            _target.position = _position;
+        }
+
         void LateUpdate()
         {
             _soldierAnimationService.LateTick();
@@ -71,13 +83,23 @@ namespace HappyHourRts.Controllers
 
         public void SetTarget(Vector3 position)
         {
-            _target.position = position;
+            _position = position;
+            Debug.Log(_target.position);
         }
 
         public void SetResourceToSoldier(IResourceController resourceController)
         {
             _resourceController = resourceController;
             _target.position = _resourceController.Target.position;
+        }
+
+        public void SetPlayerAuthority(PlayerRef playerRef)
+        {
+            Object.SetPlayerAlwaysInterested(playerRef,true);
+            if (_target.TryGetComponent(out NetworkObject networkObject))
+            {
+                networkObject.SetPlayerAlwaysInterested(playerRef,true);
+            }
         }
     }    
 }

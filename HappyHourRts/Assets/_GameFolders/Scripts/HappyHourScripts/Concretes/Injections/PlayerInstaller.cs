@@ -8,7 +8,7 @@ namespace HappyHourRts.Injections
     {
         protected override void BindInstance()
         {
-            Container.Bind<IInputReader>().To<NewInputReader>().AsSingle().Lazy();
+            Container.Bind<IInputReader>().To<NewInputReader>().AsTransient().Lazy();
         }
     }
 }

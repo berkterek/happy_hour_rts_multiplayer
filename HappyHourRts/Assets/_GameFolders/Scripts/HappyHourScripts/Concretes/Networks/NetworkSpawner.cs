@@ -35,14 +35,6 @@ namespace HappyHourRts.Networks
             }
             else
             {
-                for (int i = 0; i < _spawnedCharacters.Count; i++)
-                {
-                    if (_spawnedCharacters.ElementAt(i).Value.TryGetComponent(out PlayerController playerController))
-                    {
-                        playerController.SetColor(i == 0 ? _color1 : _color2);
-                        playerController.transform.position = i == 0 ? _position1 : _position2;
-                    }
-                }
                 Debug.Log($"{nameof(OnPlayerJoined)}");
             }
         }

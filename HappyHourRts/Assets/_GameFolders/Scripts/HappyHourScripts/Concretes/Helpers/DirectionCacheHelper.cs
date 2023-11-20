@@ -16,6 +16,7 @@ namespace HappyHourRts.Helpers
         static DirectionCacheHelper()
         {
             Vector2Zero = Vector2.zero;
+            Vector3Zero = Vector3.zero;
             Vector2Zero = Vector3.zero;
             Vector3IntZero = Vector3Int.zero;
             Left = Vector2.left;
