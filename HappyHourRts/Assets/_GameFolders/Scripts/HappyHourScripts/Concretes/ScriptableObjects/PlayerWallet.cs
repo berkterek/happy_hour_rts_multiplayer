@@ -7,7 +7,7 @@ namespace HappyHourRts.ScriptableObjects
     {
         [SerializeField] int _wood;
         
-        public event System.Action OnWoodIncreased;
+        public event System.Action<int> OnWoodIncreased;
 
 #if UNITY_EDITOR
         void OnEnable()
@@ -19,7 +19,7 @@ namespace HappyHourRts.ScriptableObjects
         public void IncreaseWood(int wood)
         {
             _wood += wood;
-            OnWoodIncreased?.Invoke();
+            OnWoodIncreased?.Invoke(_wood);
         }
     }
 }

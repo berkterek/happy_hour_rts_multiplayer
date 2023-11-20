@@ -82,8 +82,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   _camera: {fileID: 6269238427089419936}
+  _speed: 0.2
 --- !u!1001 &1263308468289043338
 PrefabInstance:
   m_ObjectHideFlags: 0
