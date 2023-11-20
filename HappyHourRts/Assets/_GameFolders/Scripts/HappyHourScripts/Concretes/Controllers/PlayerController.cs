@@ -1,4 +1,3 @@
-using System;
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Inputs;
 using HappyHourRts.Helpers;
@@ -45,7 +44,19 @@ namespace HappyHourRts.Controllers
                 if (_selectedClickableController != null)
                 {
                     var worldPosition = _camera.ScreenToWorldPoint(IInputReader.TouchPosition);
-                    _selectedClickableController.SetTarget(worldPosition);
+                    var raycastResult = Physics2D.Raycast(worldPosition, worldPosition, 100f,_layerMask);
+
+                    if (raycastResult.collider != null)
+                    {
+                        if (raycastResult.collider.TryGetComponent(out IResourceController resourceController))
+                        {
+                            _selectedClickableController.SetResourceToSoldier(resourceController);
+                        }                        
+                    }
+                    else
+                    {
+                        _selectedClickableController.SetTarget(worldPosition);    
+                    }
                 }
             }
         }

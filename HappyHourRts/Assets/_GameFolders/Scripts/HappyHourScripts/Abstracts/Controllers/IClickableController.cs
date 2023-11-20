@@ -8,5 +8,6 @@ namespace HappyHourRts.Abstracts.Controllers
         void Select();
         void Unselect();
         void SetTarget(Vector3 position);
+        void SetResourceToSoldier(IResourceController resourceController);
     }
 }

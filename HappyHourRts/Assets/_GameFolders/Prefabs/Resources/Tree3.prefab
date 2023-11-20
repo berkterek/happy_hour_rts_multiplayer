@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree3
       objectReference: {fileID: 0}
+    - target: {fileID: 6336972800340073038, guid: 946dbaf1c5fac8c4585f6fcf7a4149d9, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946dbaf1c5fac8c4585f6fcf7a4149d9, type: 3}
 --- !u!4 &2266459805164644420 stripped
@@ -75,7 +79,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 174244, guid: 52815e16bff345640a9b333c084aab8d, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 424638, guid: 52815e16bff345640a9b333c084aab8d, type: 3}
       propertyPath: m_RootOrder
@@ -123,34 +127,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52815e16bff345640a9b333c084aab8d, type: 3}
---- !u!1 &7913463283019787793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 174244, guid: 52815e16bff345640a9b333c084aab8d, type: 3}
-  m_PrefabInstance: {fileID: 7913463283019876021}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &8433730276841151135
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7913463283019787793}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.975}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 2.01, y: 4.76}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.26, y: 3.95}
-  m_EdgeRadius: 0
