@@ -16,6 +16,7 @@ namespace HappyHourRts.Controllers
         public void Constructor(ISoldierAnimationService soldierAnimationService)
         {
             _soldierAnimationService = soldierAnimationService;
+            _soldierAnimationService.SetClickableController(this);
         }
 
         void Update()

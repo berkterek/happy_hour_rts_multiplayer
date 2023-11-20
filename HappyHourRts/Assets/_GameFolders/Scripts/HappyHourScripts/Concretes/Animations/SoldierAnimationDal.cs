@@ -7,13 +7,13 @@ namespace HappyHourRts.Animations
 {
     public class SoldierAnimationDal : ISoldierAnimationDal
     {
-        readonly Animator _animator;
+        Animator _animator;
 
         public bool IsResourceCollectingNow  => _animator.GetBool(AnimationCacheHelper.IsAttacking);
 
-        public SoldierAnimationDal(IClickableController entityController)
+        public void SetClickableController(IClickableController clickableController)
         {
-            _animator = entityController.transform.GetComponentInChildren<Animator>();
+            _animator = clickableController.transform.GetComponentInChildren<Animator>();
         }
 
         public void DirectionSetterAnimation(Vector3 value)

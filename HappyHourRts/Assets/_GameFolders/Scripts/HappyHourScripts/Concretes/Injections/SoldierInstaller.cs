@@ -1,5 +1,4 @@
 using HappyHourRts.Abstracts.Animations;
-using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Injections;
 using HappyHourRts.Animations;
 

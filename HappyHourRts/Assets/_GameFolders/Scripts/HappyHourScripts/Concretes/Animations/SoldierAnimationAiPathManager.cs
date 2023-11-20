@@ -9,14 +9,13 @@ namespace HappyHourRts.Animations
     public class SoldierAnimationAiPathManager : ISoldierAnimationService
     {
         readonly ISoldierAnimationDal _animationDal;
-        readonly AIPath _aiPath;
+        AIPath _aiPath;
 
         Vector3 _velocity;
 
-        public SoldierAnimationAiPathManager(IClickableController clickableController, ISoldierAnimationDal animationDal)
+        public SoldierAnimationAiPathManager(ISoldierAnimationDal animationDal)
         {
             _animationDal = animationDal;
-            _aiPath = clickableController.transform.GetComponent<AIPath>();
         }
 
         public void Tick()
@@ -39,6 +38,12 @@ namespace HappyHourRts.Animations
             if (value == _animationDal.IsResourceCollectingNow) return;
 
             _animationDal.IsResourceCollecting(value);
+        }
+
+        public void SetClickableController(IClickableController clickableController)
+        {
+            _animationDal.SetClickableController(clickableController);
+            _aiPath = clickableController.transform.GetComponent<AIPath>();
         }
     }
 }
