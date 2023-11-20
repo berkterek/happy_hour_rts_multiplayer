@@ -1,3 +1,4 @@
+using System;
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Inputs;
 using HappyHourRts.Helpers;
@@ -9,8 +10,10 @@ namespace HappyHourRts.Controllers
     {
         [SerializeField] LayerMask _layerMask;
         [SerializeField] Camera _camera;
+        [SerializeField] float _speed = 1f;
 
         IClickableController _selectedClickableController;
+        Transform _cameraTransform;
         
         public IInputReader IInputReader { get; private set; }
 
@@ -25,8 +28,15 @@ namespace HappyHourRts.Controllers
             this.GetReference(ref _camera);
         }
 
+        void Awake()
+        {
+            _cameraTransform = _camera.transform;
+        }
+
         void Update()
         {
+            CameraMovement();
+            
             bool isTouchDown = IInputReader.IsTouchDown;
             if (!SelectUnSelectSoldier(isTouchDown)) return;
 
@@ -74,6 +84,22 @@ namespace HappyHourRts.Controllers
             }
 
             return _selectedClickableController != null;
+        }
+
+        private void CameraMovement()
+        {
+            if (IInputReader.IsTouch)
+            {
+                float deltaX = -IInputReader.DeltaPosition.x;
+                float deltaY = -IInputReader.DeltaPosition.y;
+
+                Vector2 newDeltaPosition = new Vector2(deltaX, deltaY);
+
+                Vector3 cameraPosition = _cameraTransform.position;
+                cameraPosition += _speed * Time.deltaTime * (Vector3)newDeltaPosition;
+
+                _cameraTransform.position = cameraPosition;
+            }
         }
     }    
 }
