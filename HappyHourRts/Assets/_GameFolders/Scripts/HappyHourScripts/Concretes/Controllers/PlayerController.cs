@@ -14,10 +14,13 @@ namespace HappyHourRts.Controllers
         [SerializeField] float _speed = 1f;
         [SerializeField] SpriteRenderer[] _spriteRenderers;
         [SerializeField] SoldierController[] _soldiers;
-
+        
         IClickableController _selectedClickableController;
         Transform _cameraTransform;
         bool _isOwner;
+
+        [Networked(OnChanged = nameof(HandleOnColorChanged))]
+        public Color Color { get; set; }
 
         public IInputReader IInputReader { get; private set; }
         public static PlayerController Local { get; private set; }
@@ -156,26 +159,6 @@ namespace HappyHourRts.Controllers
             }
         }
 
-        public void SetColor(Color color)
-        {
-            RPC_SetColorClientToServer(color);   
-        }
-
-        [Rpc(RpcSources.InputAuthority,RpcTargets.All)]
-        void RPC_SetColorClientToServer(Color color)
-        {
-            RPC_SetColorServerToClient(color);
-        }
-
-        [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
-        void RPC_SetColorServerToClient(Color color)
-        {
-            foreach (var spriteRenderer in _spriteRenderers)
-            {
-                spriteRenderer.color = color;
-            }
-        }
-
         public void PlayerJoined(PlayerRef player)
         {
             if (player == Object.HasInputAuthority)
@@ -184,6 +167,14 @@ namespace HappyHourRts.Controllers
                 {
                     soldierController.SetPlayerAuthority(player);
                 }    
+            }
+        }
+
+        public static void HandleOnColorChanged(Changed<PlayerController> changed)
+        {
+            foreach (var spriteRenderer in changed.Behaviour._spriteRenderers)
+            {
+                 spriteRenderer.color = changed.Behaviour.Color;
             }
         }
     }

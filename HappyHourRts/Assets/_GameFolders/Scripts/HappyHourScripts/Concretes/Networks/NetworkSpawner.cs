@@ -30,7 +30,7 @@ namespace HappyHourRts.Networks
                 bool condition = _spawnedCharacters.Count == 0;
                 var newPlayer = runner.Spawn(_playerPrefab, condition ? _position1 : _position2, Quaternion.identity, player);
 
-                newPlayer.SetColor(condition ? _color1 : _color2);
+                newPlayer.Color = (condition ? _color1 : _color2);
                 _spawnedCharacters.Add(player, newPlayer.Object);
             }
             else
