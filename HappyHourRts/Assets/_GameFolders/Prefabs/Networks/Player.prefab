@@ -316,6 +316,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 6191366035996022246, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
   m_PrefabInstance: {fileID: 2063015750774993510}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6269238426914539598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5449780816219666984, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
+  m_PrefabInstance: {fileID: 2063015750774993510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6269238426914539599 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5449780816219666985, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
@@ -333,10 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  _interpolationDataSource: 3
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
-  InterpolateErrorCorrection: 1
+  InterpolationTarget: {fileID: 6269238426914539598}
+  InterpolateErrorCorrection: 0
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
     MaxRate: 10
@@ -445,11 +450,44 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5449780816898056369, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
   m_PrefabInstance: {fileID: 6269238428095606438}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2063015751737873550 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5449780816219666984, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
+  m_PrefabInstance: {fileID: 6269238428095606438}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2063015751737873551 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5449780816219666985, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
   m_PrefabInstance: {fileID: 6269238428095606438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7449701790234844285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063015751737873551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 3
+  InterpolationSpace: 0
+  InterpolationTarget: {fileID: 2063015751737873550}
+  InterpolateErrorCorrection: 0
+  InterpolatedErrorCorrectionSettings:
+    MinRate: 3.3
+    MaxRate: 10
+    PosBlendStart: 0.25
+    PosBlendEnd: 1
+    PosMinCorrection: 0.025
+    PosTeleportDistance: 2
+    RotBlendStart: 0.1
+    RotBlendEnd: 0.5
+    RotTeleportRadians: 1.5
+  UseLegacySharedModeInterpolation: 0
+  TargetInterpolationDelay: 0.03
 --- !u!114 &1305949583549744283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,34 +512,6 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 7449701790234844285}
   SimulationBehaviours: []
---- !u!114 &7449701790234844285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2063015751737873551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
-  InterpolateErrorCorrection: 1
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  UseLegacySharedModeInterpolation: 0
-  TargetInterpolationDelay: 0.03
 --- !u!212 &6717207297754753078 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 736513708771542672, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
@@ -631,10 +641,10 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  _interpolationDataSource: 3
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
-  InterpolateErrorCorrection: 1
+  InterpolationTarget: {fileID: 2063015751393462539}
+  InterpolateErrorCorrection: 0
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
     MaxRate: 10
@@ -671,6 +681,11 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 3933005945642967512}
   SimulationBehaviours: []
+--- !u!4 &2063015751393462539 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5449780816219666984, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}
+  m_PrefabInstance: {fileID: 6269238428204086051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &6717207297646245299 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 736513708771542672, guid: 1ea7e6175dfb7794cb541c8203ab9a33, type: 3}

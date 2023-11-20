@@ -37,7 +37,17 @@ namespace HappyHourRts.Controllers
         void Update()
         {
             _soldierAnimationService.Tick();
-        
+            
+            ResourceProcess();
+        }
+
+        void LateUpdate()
+        {
+            _soldierAnimationService.LateTick();
+        }
+
+        private void ResourceProcess()
+        {
             if (_resourceController == null) return;
             
             if (Vector2.Distance(_transform.position, _target.position) > _collectedResourceDistance) return;
@@ -57,20 +67,6 @@ namespace HappyHourRts.Controllers
             }
         }
 
-        public override void FixedUpdateNetwork()
-        {
-            if (_position.Equals(DirectionCacheHelper.Vector3Zero)) return;
-            
-            if (Vector3.Distance(_target.position ,_position) < 0.5f) return;
-            
-            _target.position = _position;
-        }
-
-        void LateUpdate()
-        {
-            _soldierAnimationService.LateTick();
-        }
-
         public void Select()
         {
             _selectRenderer.enabled = true;
@@ -83,14 +79,19 @@ namespace HappyHourRts.Controllers
 
         public void SetTarget(Vector3 position)
         {
-            _position = position;
-            Debug.Log(_target.position);
+            RPC_SetTarget(position);
         }
 
         public void SetResourceToSoldier(IResourceController resourceController)
         {
             _resourceController = resourceController;
-            _target.position = _resourceController.Target.position;
+            RPC_SetTarget(_resourceController.Target.position);
+        }
+        
+        [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+        void RPC_SetTarget(Vector3 position)
+        {
+            _target.position = position;
         }
 
         public void SetPlayerAuthority(PlayerRef playerRef)
