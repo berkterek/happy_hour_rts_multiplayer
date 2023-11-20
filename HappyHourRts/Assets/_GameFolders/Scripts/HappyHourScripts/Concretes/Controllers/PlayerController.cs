@@ -1,3 +1,4 @@
+using Fusion;
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Inputs;
 using HappyHourRts.Helpers;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace HappyHourRts.Controllers
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : NetworkBehaviour, IPlayerLeft
     {
         [SerializeField] LayerMask _layerMask;
         [SerializeField] Camera _camera;
@@ -15,6 +16,7 @@ namespace HappyHourRts.Controllers
         Transform _cameraTransform;
         
         public IInputReader IInputReader { get; private set; }
+        public static PlayerController Local { get; private set; }
 
         [Zenject.Inject]
         public void Constructor(IInputReader inputReader)
@@ -32,20 +34,33 @@ namespace HappyHourRts.Controllers
             _cameraTransform = _camera.transform;
         }
 
+        public override void Spawned()
+        {
+            if (Object.HasInputAuthority)
+            {
+                Local = this;
+                Debug.Log("Local player spawned!");
+            }
+            else
+            {
+                Debug.Log("Remote player spawned!");
+            }
+        }
+
         void Update()
         {
             CameraMovement();
             
             bool isTouchDown = IInputReader.IsTouchDown;
             if (!SelectUnSelectSoldier(isTouchDown)) return;
-
+        
             if (isTouchDown)
             {
                 if (_selectedClickableController != null)
                 {
                     var worldPosition = _camera.ScreenToWorldPoint(IInputReader.TouchPosition);
                     var raycastResult = Physics2D.Raycast(worldPosition, worldPosition, 100f,_layerMask);
-
+        
                     if (raycastResult.collider != null)
                     {
                         if (raycastResult.collider.TryGetComponent(out IResourceController resourceController))
@@ -110,6 +125,14 @@ namespace HappyHourRts.Controllers
                 cameraPosition += _speed * Time.deltaTime * (Vector3)newDeltaPosition;
 
                 _cameraTransform.position = cameraPosition;
+            }
+        }
+
+        public void PlayerLeft(PlayerRef player)
+        {
+            if (player == Object.HasInputAuthority)
+            {
+                Runner.Despawn(Object);
             }
         }
     }    

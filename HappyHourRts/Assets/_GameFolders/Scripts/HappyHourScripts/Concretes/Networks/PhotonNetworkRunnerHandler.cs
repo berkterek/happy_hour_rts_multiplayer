@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using Fusion;
 using Fusion.Sockets;
 using Unity.VisualScripting;
@@ -15,15 +14,18 @@ namespace HappyHourRts.Networks
         
         NetworkRunner _networkRunner;
 
-        void Start()
+        async void Start()
         {
             _networkRunner = Instantiate(_prefab);
 
-            var clientTask = InitializedNetworkRunner(_networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(),
-                SceneManager.GetActiveScene().buildIndex + 1, null);
+            await InitializedNetworkRunnerAsync(_networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(),
+                SceneManager.GetActiveScene().buildIndex + 1, (networkRunner) =>
+                {
+                    Debug.Log(networkRunner.State);
+                });
         }
 
-        protected virtual Task InitializedNetworkRunner(NetworkRunner networkRunner, GameMode gameMode,
+        Task InitializedNetworkRunnerAsync(NetworkRunner networkRunner, GameMode gameMode,
             NetAddress netAddress, SceneRef sceneRef, Action<NetworkRunner> onInitializedSuccessCallback)
         {
             INetworkSceneManager sceneManager;
@@ -34,7 +36,7 @@ namespace HappyHourRts.Networks
             }
             else
             {
-                sceneManager =networkRunner.AddComponent<NetworkSceneManagerDefault>();
+                sceneManager = networkRunner.AddComponent<NetworkSceneManagerDefault>();
             }
 
             _networkRunner.ProvideInput = true;

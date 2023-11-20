@@ -34,11 +34,11 @@ namespace HappyHourRts.Controllers
         void Update()
         {
             _soldierAnimationService.Tick();
-
+        
             if (_resourceController == null) return;
             
             if (Vector2.Distance(_transform.position, _target.position) > _collectedResourceDistance) return;
-
+        
             _currentCollectedTime += Time.deltaTime;
             _soldierAnimationService.IsResourceCollecting(true);
             if (_currentCollectedTime > _maxCollectedTime)
