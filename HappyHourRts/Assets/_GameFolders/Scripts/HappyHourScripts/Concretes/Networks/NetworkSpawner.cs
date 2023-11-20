@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fusion;
 using Fusion.Sockets;
 using HappyHourRts.Controllers;
@@ -8,8 +9,15 @@ namespace HappyHourRts.Networks
 {
     public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
+        [Header("Player 1")]
         [SerializeField] Vector3 _position1;
+        [SerializeField] Color _color1;
+        
+        [Header("Player 2")]
         [SerializeField] Vector3 _position2;
+        [SerializeField] Color _color2;
+        
+        [Header("Network Prefab")]
         [SerializeField] PlayerController  _playerPrefab;
 
         readonly Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -19,11 +27,22 @@ namespace HappyHourRts.Networks
             if (runner.IsServer)
             {
                 Debug.Log($"{nameof(OnPlayerJoined)} triggered on server side");
-                var newPlayer = runner.Spawn(_playerPrefab, _position1, Quaternion.identity, player);
+                bool condition = _spawnedCharacters.Count == 0;
+                var newPlayer = runner.Spawn(_playerPrefab, condition ? _position1 : _position2, Quaternion.identity, player);
+
+                newPlayer.SetColor(condition ? _color1 : _color2);
                 _spawnedCharacters.Add(player, newPlayer.Object);
             }
             else
             {
+                for (int i = 0; i < _spawnedCharacters.Count; i++)
+                {
+                    if (_spawnedCharacters.ElementAt(i).Value.TryGetComponent(out PlayerController playerController))
+                    {
+                        playerController.SetColor(i == 0 ? _color1 : _color2);
+                        playerController.transform.position = i == 0 ? _position1 : _position2;
+                    }
+                }
                 Debug.Log($"{nameof(OnPlayerJoined)}");
             }
         }

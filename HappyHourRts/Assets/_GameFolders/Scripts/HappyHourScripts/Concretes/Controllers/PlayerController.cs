@@ -12,9 +12,11 @@ namespace HappyHourRts.Controllers
         [SerializeField] LayerMask _layerMask;
         [SerializeField] Camera _camera;
         [SerializeField] float _speed = 1f;
+        [SerializeField] SpriteRenderer[] _spriteRenderers;
 
         IClickableController _selectedClickableController;
         Transform _cameraTransform;
+        bool _isOwner;
 
         public IInputReader IInputReader { get; private set; }
         public static PlayerController Local { get; private set; }
@@ -40,23 +42,29 @@ namespace HappyHourRts.Controllers
             if (Object.HasInputAuthority)
             {
                 Local = this;
+                _isOwner = true;
                 Debug.Log("Local player spawned!");
             }
             else
             {
                 Debug.Log("Remote player spawned!");
+                _camera.gameObject.SetActive(false);
+                _isOwner = false;
             }
         }
-        
+
         void Update()
         {
+            if (!_isOwner) return;
             CameraMovement();
         }
 
         public override void FixedUpdateNetwork()
         {
+            if (!_isOwner) return;
+
             if (!GetInput(out NetworkInputData networkInputData)) return;
-            
+
             bool isTouchDown = networkInputData.IsTouchDown;
             if (!SelectUnSelectSoldier(isTouchDown)) return;
 
@@ -139,6 +147,21 @@ namespace HappyHourRts.Controllers
             if (player == Object.HasInputAuthority)
             {
                 Runner.Despawn(Object);
+            }
+        }
+
+        public void SetColor(Color color)
+        {
+            if (!_isOwner) return;
+            SetColorServerRpc(color);
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+        private void SetColorServerRpc(Color color)
+        {
+            foreach (var spriteRenderer in _spriteRenderers)
+            {
+                spriteRenderer.color = color;
             }
         }
     }

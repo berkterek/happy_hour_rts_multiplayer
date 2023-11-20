@@ -1,3 +1,4 @@
+using Fusion;
 using HappyHourRts.Abstracts.Animations;
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Helpers;
@@ -5,9 +6,8 @@ using UnityEngine;
 
 namespace HappyHourRts.Controllers
 {
-    public class SoldierController : MonoBehaviour,IClickableController
+    public class SoldierController : NetworkBehaviour,IClickableController
     {
-        [SerializeField] SpriteRenderer _bodyRenderer;
         [SerializeField] SpriteRenderer _selectRenderer;
         [SerializeField] Transform _target;
         [SerializeField] Transform _transform;
