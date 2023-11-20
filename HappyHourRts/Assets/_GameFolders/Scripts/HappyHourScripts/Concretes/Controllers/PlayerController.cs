@@ -2,6 +2,7 @@ using Fusion;
 using HappyHourRts.Abstracts.Controllers;
 using HappyHourRts.Abstracts.Inputs;
 using HappyHourRts.Helpers;
+using HappyHourRts.Networks;
 using UnityEngine;
 
 namespace HappyHourRts.Controllers
@@ -14,7 +15,7 @@ namespace HappyHourRts.Controllers
 
         IClickableController _selectedClickableController;
         Transform _cameraTransform;
-        
+
         public IInputReader IInputReader { get; private set; }
         public static PlayerController Local { get; private set; }
 
@@ -46,31 +47,36 @@ namespace HappyHourRts.Controllers
                 Debug.Log("Remote player spawned!");
             }
         }
-
+        
         void Update()
         {
             CameraMovement();
+        }
+
+        public override void FixedUpdateNetwork()
+        {
+            if (!GetInput(out NetworkInputData networkInputData)) return;
             
-            bool isTouchDown = IInputReader.IsTouchDown;
+            bool isTouchDown = networkInputData.IsTouchDown;
             if (!SelectUnSelectSoldier(isTouchDown)) return;
-        
+
             if (isTouchDown)
             {
                 if (_selectedClickableController != null)
                 {
                     var worldPosition = _camera.ScreenToWorldPoint(IInputReader.TouchPosition);
-                    var raycastResult = Physics2D.Raycast(worldPosition, worldPosition, 100f,_layerMask);
-        
+                    var raycastResult = Physics2D.Raycast(worldPosition, worldPosition, 100f, _layerMask);
+
                     if (raycastResult.collider != null)
                     {
                         if (raycastResult.collider.TryGetComponent(out IResourceController resourceController))
                         {
                             _selectedClickableController.SetResourceToSoldier(resourceController);
-                        }                        
+                        }
                     }
                     else
                     {
-                        _selectedClickableController.SetTarget(worldPosition);    
+                        _selectedClickableController.SetTarget(worldPosition);
                     }
                 }
             }
@@ -86,7 +92,7 @@ namespace HappyHourRts.Controllers
                 if (raycastResult.collider != null)
                 {
                     if (raycastResult.collider.TryGetComponent(out IClickableController clickableController))
-                    { 
+                    {
                         if (_selectedClickableController != null)
                         {
                             if (_selectedClickableController.Equals(clickableController))
@@ -95,7 +101,7 @@ namespace HappyHourRts.Controllers
                                 _selectedClickableController = null;
                                 return false;
                             }
-                            
+
                             _selectedClickableController.Unselect();
                             _selectedClickableController = clickableController;
                             _selectedClickableController.Select();
@@ -135,5 +141,5 @@ namespace HappyHourRts.Controllers
                 Runner.Despawn(Object);
             }
         }
-    }    
+    }
 }

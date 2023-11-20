@@ -39,7 +39,12 @@ namespace HappyHourRts.Networks
 
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
+            if (PlayerController.Local == null) return;
             
+            input.Set(new NetworkInputData
+            {
+                IsTouchDown =  PlayerController.Local.IInputReader.IsTouchDown
+            });
         }
 
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
